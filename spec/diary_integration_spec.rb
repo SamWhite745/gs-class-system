@@ -49,4 +49,33 @@ RSpec.describe "diary integration" do
       end
     end
   end
+
+  context "when passed multiple Todos" do
+    it "shows the list of Todos" do
+      diary = Diary.new
+      task_1 = Todo.new("Laundry")
+      diary.add_task(task_1)
+      task_2 = Todo.new("Dog walk")
+      diary.add_task(task_2)
+      expect(diary.view_tasks).to eq ["Laundry", "Dog walk"]
+    end
+
+    it "deletes a task and shows remaining tasks" do
+      diary = Diary.new
+      task_1 = Todo.new("Laundry")
+      diary.add_task(task_1)
+      task_2 = Todo.new("Dog walk")
+      diary.add_task(task_2)
+      diary.delete_task(task_2)
+      expect(diary.view_tasks).to eq ["Laundry"]
+    end
+
+    context "trying to delete a task that doesnt exist" do
+      it "fails" do
+        diary = Diary.new
+        task_1 = Todo.new("Laundry")
+        expect{diary.delete_task(task_1)}.to raise_error "No such task"
+      end
+    end
+  end
 end
