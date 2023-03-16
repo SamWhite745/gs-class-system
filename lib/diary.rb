@@ -32,4 +32,12 @@ class Diary
     fail "No such task" unless @tasks.include? task
     @tasks.delete(task)
   end
+
+  def find_contacts
+    return @entries.map{ |entry| 
+      entry.contents.gsub(/\s+/, "")
+    }.map { |entry| 
+      entry.scan(/07[0-9]{9}/)
+    }.flatten
+  end
 end

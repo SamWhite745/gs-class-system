@@ -77,5 +77,18 @@ RSpec.describe "diary integration" do
         expect{diary.delete_task(task_1)}.to raise_error "No such task"
       end
     end
+
+    context "given diary entries containing numbers" do
+      it "finds all valid numbers" do
+        diary = Diary.new
+        entry_1 = DiaryEntry.new("my title", "my day went well 07777 789 123, my other number is 07654123456")
+        entry_2 = DiaryEntry.new("my second title", "my day went well, so well in fact 07777 777888")
+        entry_3 = DiaryEntry.new("my final title", "hello world!")
+        diary.add(entry_1)
+        diary.add(entry_2)
+        diary.add(entry_3)
+        expect(diary.find_contacts).to eq ["07777789123","07654123456", "07777777888"]
+      end
+    end
   end
 end
